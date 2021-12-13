@@ -1,0 +1,14 @@
+---
+essential_packages:
+  - ansible
+  - base-devel
+  - bash-completion
+  - intel-ucode
+  - man-db
+  - man-pages
+  - nfs-utils
+  - openssh
+  - screen
+  - sudo
+  - texinfo
+  - vim

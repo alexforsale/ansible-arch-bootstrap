@@ -1,0 +1,74 @@
+---
+- name: set the time zone
+  block:
+    - name: symlink /etc/localtime
+      file:
+        src: "/usr/share/zoneinfo/{{ region }}/{{ city }}"
+        dest: /etc/localtime
+        state: link
+
+    - name: run hwclock to generate /etc/adjtime
+      command: hwclock --systohc
+
+- name: localization
+  block:
+    - name: edit /etc/locale.gen
+      lineinfile:
+        path: /etc/locale.gen
+        regexp: "#{{ item }}"
+        line: "{{ item }}"
+      loop: "{{ lang }}"
+
+    - name: generates the locales
+      command: locale-gen
+
+    - name: create vconsole.conf
+      lineinfile:
+        path: /etc/vconsole.conf
+        line: "KEYMAP={{ keymap }}"
+        create: true
+      when: keymap is defined
+
+- name: Network configuration
+  block:
+    - name: create the hostname file
+      lineinfile:
+        path: /etc/hostname
+        line: "{{ hostname }}"
+        create: true
+
+# see https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module
+- name: set the root password
+  user:
+    name: root
+    update_password: always
+    password: "{{ root_pass }}"
+
+- name: create group
+  group:
+    name: "{{ item.name }}"
+    gid: "{{ item.gid }}"
+    state: present
+  loop: "{{ group }}"
+
+- name: create users
+  user:
+    name: "{{ item.name }}"
+    create_home: "{{ item.create_home }}"
+    generate_ssh_key: "{{ item.generate_ssh_key }}"
+    groups: "{{ item.groups }}"
+    password: "{{ item.password }}"
+    shell: "{{ item.shell }}"
+    uid: "{{ item.uid }}"
+  loop: "{{ user }}"
+
+- name: create sudoers file for "{{ item.name }}" group
+  blockinfile:
+    path: "/etc/sudoers.d/{{ item.name }}"
+    create: true
+    block: |
+      %{{ item.name }} ALL=(ALL) NOPASSWD: ALL
+      create: true
+      mode: '0644'
+      validate: /usr/bin/visudo -cf %s
+  loop: "{{ group }}"

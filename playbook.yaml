@@ -1,0 +1,35 @@
+---
+- name: Arch chroot install
+  hosts: localhost
+  tasks:
+    - name: pacman configuration
+      include_role:
+        name: pacman
+
+    - name: Base configuration
+      include_role:
+        name: base
+
+    - name: Network managers configuration
+      include_role:
+        name: network
+
+    - name: Boot loader
+      include_role:
+        name: bootloader
+
+    - name: add pacman cache nfs mount
+      lineinfile:
+        path: /etc/fstab
+        regexp: '{{item.path}}'
+        line: "{{item.name}}:{{item.path}} {{item.mountpoint}} nfs {{item.options}} 0 0"
+        state: present
+      with_items: "{{ nfs }}"
+
+    - name: mount all in /etc/fstab
+      command: mount -a
+
+    - name: enable sshd
+      systemd:
+        name: sshd
+        enabled: true

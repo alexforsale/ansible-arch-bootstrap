@@ -1,0 +1,6 @@
+---
+- include_tasks: systemd-boot.yaml
+  when: bootloader == "systemd"
+
+- include_tasks: grub.yaml
+  when: bootloader == "grub"

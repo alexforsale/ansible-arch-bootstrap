@@ -1,0 +1,3 @@
+---
+- include_tasks: systemd-networkd.yaml
+  when: net_manager == "systemd"

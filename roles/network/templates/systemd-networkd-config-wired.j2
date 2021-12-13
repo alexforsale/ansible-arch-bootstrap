@@ -1,0 +1,44 @@
+[Match]
+Name={{ net_iface }}
+
+[Network]
+{% if ( ( net_ipv4 is defined and net_ipv4 == 'dhcp' ) and
+  ( net_ipv6 is defined and net_ipv6 == 'dhcp' ) ) %}
+DCHP=yes
+{% endif %}
+{% if net_ipv4 == 'dhcp' and not net_ipv6 %}
+DHCP=ipv4
+{% elif net_ipv4 != 'dhcp' %}
+Address={{ net_ipv4 }}
+{% endif %}
+{% if net_gateway4 is defined %}
+Gateway={{ net_gateway4 }}
+{% endif %}
+{% if net_dns4 is defined %}
+DNS={{ net_dns4 }}
+{% elif net_gateway4 is defined %}
+DNS={{ net_gateway4 }}
+{% endif %}
+
+{% if ( ( net_ipv6 is defined and net_ipv6 == 'dhcp' ) and
+  net_ipv4 != 'dhcp' ) %}
+DHCP=ipv6
+{% endif %}
+{% if net_ipv6 is defined and net_ipv6 != 'dhcp' %}
+Address={{ net_ipv6 }}
+{% endif %}
+{% if net_gateway6 is defined %}
+Gateway={{ net_gateway6 }}
+{% endif %}
+{% if net_dns6 is defined %}
+DNS={{ net_dns6 }}
+{% elif net_gateway6 is defined %}
+DNS={{ net_gateway6 }}
+{% endif %}
+
+{% if llmnr %}
+LLMNR=true
+{% endif %}
+{% if multicastdns %}
+MulticastDNS=true
+{% endif %}

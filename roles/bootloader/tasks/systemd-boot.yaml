@@ -1,0 +1,44 @@
+---
+
+# installation
+- name: install bootloader
+  command: bootctl install
+  args:
+    creates: /boot/EFI/BOOT/BOOTX64.efi
+
+- name: creates pacman.d/hooks directory
+  file:
+    path: /etc/pacman.d/hooks
+    state: directory
+
+# automatic pacman update hook
+- name: create pacman hook for systemd-boot
+  copy:
+    src: 100-systemd-boot.hook
+    dest: /etc/pacman.d/hooks/100-systemd-boot.hook
+
+# /boot/loader/loader.conf
+- name: edit systemd-boot loader.conf
+  blockinfile:
+    path: /boot/loader/loader.conf
+    create: true
+    block: |
+      default arch.conf
+      timeout 4
+      console-mode max
+      editor no
+
+- name: create arch loader
+  blockinfile:
+    path: /boot/loader/entries/arch.conf
+    create: true
+    block: |
+      title Archlinux
+      linux /vmlinuz-linux
+      initrd /intel-ucode.img
+      initrd /initramfs-linux.img
+      {% if root_partition_uuid is defined %}
+      options root="UUID={{ root_partition_uuid }} rw"
+      {% elif root_partition_label is defined %}
+      options root="LABEL={{ root_partition_label }} rw"
+      {% endif %}

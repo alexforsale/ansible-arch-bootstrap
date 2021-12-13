@@ -1,0 +1,37 @@
+---
+# default variables for networking
+# systemd or networkmanager
+# net_managers: systemd
+# net_managers: networkmanager
+
+# wireless_iface: wlo1
+# net_iface: ens0
+
+# ip_address/subnet or dhcp
+# for static:
+# wireless_ipv4: 192.168.11.100/24
+# wireless_gateway4: 192.168.11.1
+# wireless_dns4: 192.168.11.2
+# net_ipv4: 192.168.11.100/24
+# net_gateway4: 192.168.11.1
+# net_dns4: 192.168.11.2
+# the same with ipv6
+
+# wireless_ipv4: dhcp
+# wireless_ipv6: dhcp
+
+# net_ipv4: dhcp
+# net_ipv6: dhcp
+
+# name of the bridge
+# bridge: br0
+# bridge interface(s)
+# bridge_Iface:
+#   - ens1
+#   - ens2
+
+# bridge_ipv4: dhcp
+# bridge_ipv6: dhcp
+
+llmnr: false
+multicastdns: false

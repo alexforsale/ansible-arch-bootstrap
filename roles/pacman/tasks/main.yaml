@@ -1,0 +1,35 @@
+---
+# setup pacman.conf
+- name: 'configure pacman: enable syslog'
+  lineinfile:
+    path: /etc/pacman.conf
+    regexp: '^#UseSyslog$'
+    line: 'UseSyslog'
+
+- name: 'configure pacman: verbose package lists'
+  lineinfile:
+    path: /etc/pacman.conf
+    regexp: '^#VerbosePkgLists$'
+    line: 'VerbosePkgLists'
+
+- name: 'configure pacman: use parallel downloads'
+  lineinfile:
+    path: /etc/pacman.conf
+    regexp: '^#ParallelDownloads = 5$'
+    line: 'ParallelDownloads = 5'
+
+- name: 'Use multilib repo'
+  blockinfile:
+    path: /etc/pacman.conf
+    block: |
+      [multilib]
+      Include = /etc/pacman.d/mirrorlist
+
+- name: 'upgrade pacman packages'
+  pacman:
+    update_cache: true
+    upgrade: true
+
+- name: install essential packages
+  pacman:
+    name: "{{ essential_packages }}"
