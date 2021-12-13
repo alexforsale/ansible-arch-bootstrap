@@ -68,7 +68,6 @@
     create: true
     block: |
       %{{ item.name }} ALL=(ALL) NOPASSWD: ALL
-      create: true
-      mode: '0644'
-      validate: /usr/bin/visudo -cf %s
+    mode: '0644'
+    validate: /usr/bin/visudo -cf %s
   loop: "{{ group }}"
