@@ -1,0 +1,33 @@
+---
+# region and city
+region: Asia
+City: Jakarta
+
+# language
+lang:
+  - en_US.UTF-8
+  - id_ID.UTF-8
+
+# keymap
+# keymap: de-latin1
+
+# hostname
+# hostname: arch-test
+
+# root_pass: password for root
+# root_pass: $6$p5F/CINLLoECcoK6$zGfaxXDdOQK/TFQuan24wCwmbvIyYTokpNkCN6LVEmhSZmqkk6xb2KxzlqqpiNcSUxjE/PlAVuZyBHaQ.vmH31
+
+# group: create groups
+# group:
+#   - { name: testgroup1, gid: 3000 }
+#   - { name: testgroup2, gid: 3001 }
+
+# user: create users
+# user:
+#   name: username
+#   create_home: true
+#   generate_ssh_key: true
+#   groups: [wheel, testgroup1, testgroup2]
+#   password: $6$p5F/CINLLoECcoK6$zGfaxXDdOQK/TFQuan24wCwmbvIyYTokpNkCN6LVEmhSZmqkk6xb2KxzlqqpiNcSUxjE/PlAVuZyBHaQ.vmH31
+#   shell: /bin/bash
+#   uid: 3000
