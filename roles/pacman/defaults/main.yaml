@@ -11,4 +11,5 @@ essential_packages:
   - screen
   - sudo
   - texinfo
+  - vi
   - vim
