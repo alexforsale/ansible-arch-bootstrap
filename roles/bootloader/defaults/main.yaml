@@ -1,0 +1,9 @@
+---
+# GRUB
+# grub_firmware: efi or bios.
+# grub_disk: the disk used by grub.
+# grub_efi_dir: the directory of the mounted efi partition(usually /boot for systemd-boot).
+
+# SYSTEMD-BOOT
+# root_partition_uuid: the uuid of the root partition.
+# root_partition_label: the label of the root partition.
